@@ -83,13 +83,11 @@ data:
     }
 
 ---
-{{- if not .Values.grafana.useExternal }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "devlake.fullname" . }}-grafana-datasource
 data:
-{{- if eq .Values.option.database "mysql" }}
   grafana-datasource.yml: |
     apiVersion: 1
     datasources:
@@ -101,23 +99,8 @@ data:
         secureJsonData:
           password: $MYSQL_PASSWORD
         editable: false
-#{{- else if eq .Values.option.database "pgsql" }}
-#  grafana-datasource.yml: |
-#    apiVersion: 1
-#    datasources:
-#      - name: postgres
-#        type: postgres
-#        url: $POSTGRES_URL
-#        database: $POSTGRES_DB
-#        user: $POSTGRES_USER
-#        secureJsonData:
-#          password: $POSTGRES_PASSWORD
-#        jsonData:
-#          sslmode: 'disable'
-#          postgresVersion: 1000 # support pgsql 10.0 and above
-#          timescaledb: false
-{{- end }}
 
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -149,5 +132,3 @@ data:
     {{- end }}
     {{- end }}
   {{- end }}
-
-{{- end }}
